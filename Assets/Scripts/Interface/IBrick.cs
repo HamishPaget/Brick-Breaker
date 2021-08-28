@@ -1,18 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class IBrick : MonoBehaviour
+public interface IBrick
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public void Hit();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public void Destroy();
 }

@@ -2,17 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ball : MonoBehaviour
+[RequireComponent(typeof(Rigidbody))]
+public class Ball : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    Rigidbody rb;
+    private void Awake()
     {
-        
+        rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public float ballSpeed = 2f;
+
+    private void FixedUpdate()
     {
+        Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
+
+        Vector3 velocity = rb.velocity;
+
+        if (screenPos.x > 1 || screenPos.x < 0)
+        {
+            Debug.Log("Left Side of screen");
+            velocity.x = -velocity.x;
+        }
+
+        if (screenPos.y > 1)
+        {
+            Debug.Log("Left Top of screen");
+
+
+            velocity.y = -velocity.y;
+        }
+
+        /*
+        if (velocity != rb.velocity)
+        {
+        */
+            rb.velocity = velocity.normalized * ballSpeed;
+        //}
+
         
     }
 }

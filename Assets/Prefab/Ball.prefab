@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3432427288751479129}
   - component: {fileID: 10081519622555036}
   - component: {fileID: 1120231447606666601}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 3054033305532808262}
   - component: {fileID: 3054033305532808258}
   - component: {fileID: -3760131518535417042}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,7 +166,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4366198626974458784}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}

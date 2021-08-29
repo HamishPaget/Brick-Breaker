@@ -77,9 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 684195a8b352a40778cb58e1f2f81a18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onDestroy:
-    m_PersistentCalls:
-      m_Calls: []
+  score: 100
 --- !u!136 &3571384442689101310
 CapsuleCollider:
   m_ObjectHideFlags: 0

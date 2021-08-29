@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public float launchSpeed = 2f;
 
 
+    #region Singleton
     public static GameManager instance;
     private void Awake()
     {
@@ -29,9 +30,17 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this);
             Debug.LogWarning("Duplicate Game Managers in Scene", gameObject);
-            return;
         }
+    }
+    #endregion
 
+    private void Start()
+    {
+        SpawnInitialBall();
+    }
+
+    void SpawnInitialBall()
+    {
         //If we have an object pool for balls - get ball from object pool
         //Not using for this case as an object pool would take more than creating one ball
         //I would use an object pool if we were expecting lots of balls
@@ -80,6 +89,13 @@ public class GameManager : MonoBehaviour
 
         //We only get here if there are no balls left
         Debug.Log("No More Balls");
+        StartCoroutine(RespawnBall());
+    }
+
+    IEnumerator RespawnBall()
+    {
+        yield return new WaitForSeconds(0.5f);
+        SpawnInitialBall();
     }
 
     #region gizmos

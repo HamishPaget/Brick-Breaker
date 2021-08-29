@@ -39,7 +39,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Move(float dir)
     {
-        Debug.Log("Move");
         Vector3 pos = transform.position;
 
         if (useMovementCurve)

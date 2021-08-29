@@ -18,9 +18,24 @@ public class GameManager : MonoBehaviour
 
     public float launchSpeed = 2f;
 
+
+    public static GameManager instance;
     private void Awake()
     {
-        balls.Add(Instantiate(ballPrefab, ballLaunch));
+        if (instance == null)
+        {
+            instance = this;
+        }else if (instance != this)
+        {
+            Destroy(this);
+            Debug.LogWarning("Duplicate Game Managers in Scene", gameObject);
+            return;
+        }
+
+        //If we have an object pool for balls - get ball from object pool
+        //Not using for this case as an object pool would take more than creating one ball
+        //I would use an object pool if we were expecting lots of balls
+        balls.Add(Instantiate(ballPrefab, ballLaunch.position, Quaternion.identity, ballLaunch));
         ballLaunched = false;
     }
 
@@ -35,12 +50,36 @@ public class GameManager : MonoBehaviour
     void LaunchBall()
     {
         if (ballLaunched) return;
+
         balls[0].transform.rotation = Quaternion.Euler(0, 0, Random.Range(-launchAngle / 2, launchAngle / 2));
 
-        //Add force randomly upwards
+        
         balls[0].GetComponent<Rigidbody>().velocity = balls[0].transform.up * launchSpeed;
         balls[0].transform.SetParent(null);
         ballLaunched = true;
+    }
+
+    public void RemoveBall(GameObject ball)
+    {
+        if (balls.Contains(ball) == false)
+        {
+            return;
+        }
+
+        balls.Remove(ball);
+
+        //If we had a object pool for balls - remove ball from play and put back in play
+        Destroy(ball);
+
+        CheckForBalls();
+    }
+
+    public void CheckForBalls()
+    {
+        if (balls.Count > 0) { return; }
+
+        //We only get here if there are no balls left
+        Debug.Log("No More Balls");
     }
 
     #region gizmos

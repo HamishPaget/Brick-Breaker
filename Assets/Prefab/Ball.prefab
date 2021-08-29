@@ -157,6 +157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballSpeed: 2
+  deathParticle: {fileID: 7817887932397100154, guid: 671f6ea28e33b437a9c577df03ef313b, type: 3}
 --- !u!1 &6695649691639331091
 GameObject:
   m_ObjectHideFlags: 0

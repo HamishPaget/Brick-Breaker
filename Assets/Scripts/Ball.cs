@@ -49,5 +49,32 @@ public class Ball : MonoBehaviour
         {
             collision.gameObject.GetComponent<IBrick>().Hit();
         }
+
+        Vector3 vel = rb.velocity;
+
+        //If the ball is traveling horizontally & won't return to the player
+        if (Mathf.Abs(vel.y) < 0.01f)
+        {
+            vel.y += Random.Range(-1f,1f);
+
+            rb.velocity = vel.normalized * ballSpeed;
+        }
+
+        //If the ball is traveling Vertically & won't hit anymore blocks
+        if (Mathf.Abs(vel.x) < 0.01f)
+        {
+            vel.x += Random.Range(-1f, 1f);
+
+            rb.velocity = vel.normalized * ballSpeed;
+        }
+    }
+
+    public GameObject deathParticle;
+    private void OnDestroy()
+    {
+        if (deathParticle != null)
+        {
+            Instantiate(deathParticle, transform.position, Quaternion.identity, null);
+        }
     }
 }

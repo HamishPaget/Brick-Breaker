@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     public bool useMovementCurve;
 
@@ -16,11 +17,19 @@ public class PlayerMovement : MonoBehaviour
 
     public ControlsSO controls;
 
+    public GameObject ballToLaunch;
+
+    public Transform ballLaunchLocation;
 
     float moveTimer;
     // Update is called once per frame
     void Update()
     {
+        //Do not control player if it is not local
+        if (isLocalPlayer == false)
+        {
+            return;
+        }
         //Controller Dead Zone
         float moveDir = Input.GetAxis(controls.horizontalInputName);
 
@@ -34,7 +43,10 @@ public class PlayerMovement : MonoBehaviour
             moveTimer = 0;
         }
 
-
+        if (Input.GetButtonDown(controls.shootInputName) && ballToLaunch != null)
+        {
+            CmdLaunchAttachedBall();
+        }
     }
 
     void Move(float dir)
@@ -62,5 +74,15 @@ public class PlayerMovement : MonoBehaviour
         Vector3 pos = Camera.main.WorldToViewportPoint(worldPos);
         pos.x = Mathf.Clamp(pos.x, screenZone / 2, 1 - (screenZone / 2));
         return Camera.main.ViewportToWorldPoint(pos);
+    }
+
+    void CmdLaunchAttachedBall()
+    {
+        Ball ball = ballToLaunch.GetComponent<Ball>();
+
+        ball.LaunchBall();
+        ball.mainPlayer = this;
+
+        ballToLaunch = null;
     }
 }

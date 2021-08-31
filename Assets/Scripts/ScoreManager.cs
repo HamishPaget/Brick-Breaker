@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror;
 
-public class ScoreManager : MonoBehaviour
+public class ScoreManager : NetworkBehaviour
 {
     public Text scoreText;
 
+    [SyncVar]
     public int score;
+
+    int prevScore;
 
     #region Singleton
     public static ScoreManager instance;
@@ -29,15 +33,17 @@ public class ScoreManager : MonoBehaviour
     public void AddScore(int amount)
     {
         score += amount;
-        scoreText.text = score.ToString();
-        scoreText.transform.localScale = Vector3.one * 1.2f;
+        
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
+        if (score != prevScore)
         {
-            AddScore(5);
+            scoreText.text = score.ToString();
+            scoreText.transform.localScale = Vector3.one * 1.2f;
         }
+
+        prevScore = score;
     }
 }

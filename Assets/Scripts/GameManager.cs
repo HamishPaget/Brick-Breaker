@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     public Transform ballLaunch;
 
-    public List<GameObject> balls;
+    [SyncVar]
+    public GameObject ball;
 
     public GameObject ballPrefab;
 
@@ -18,6 +20,7 @@ public class GameManager : MonoBehaviour
 
     public float launchSpeed = 2f;
 
+    public PlayerMovement player;
 
     #region Singleton
     public static GameManager instance;
@@ -34,6 +37,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    /*
     private void Start()
     {
         SpawnInitialBall();
@@ -44,10 +48,11 @@ public class GameManager : MonoBehaviour
         //If we have an object pool for balls - get ball from object pool
         //Not using for this case as an object pool would take more than creating one ball
         //I would use an object pool if we were expecting lots of balls
-        balls.Add(Instantiate(ballPrefab, ballLaunch.position, Quaternion.identity, ballLaunch));
+        ball = (Instantiate(ballPrefab, ballLaunch.position, Quaternion.identity, ballLaunch));
         ballLaunched = false;
-    }
+    }*/
 
+    /*
     private void Update()
     {
         if (Input.GetButtonDown(controls.shootInputName))
@@ -60,44 +65,24 @@ public class GameManager : MonoBehaviour
     {
         if (ballLaunched) return;
 
-        balls[0].transform.rotation = Quaternion.Euler(0, 0, Random.Range(-launchAngle / 2, launchAngle / 2));
-
         
-        balls[0].GetComponent<Rigidbody>().velocity = balls[0].transform.up * launchSpeed;
-        balls[0].transform.SetParent(null);
-        ballLaunched = true;
-    }
+    }*/
 
     public void RemoveBall(GameObject ball)
     {
-        if (balls.Contains(ball) == false)
-        {
-            return;
-        }
-
-        balls.Remove(ball);
-
-        //If we had a object pool for balls - remove ball from play and put back in play
-        Destroy(ball);
-
-        CheckForBalls();
-    }
-
-    public void CheckForBalls()
-    {
-        if (balls.Count > 0) { return; }
-
-        //We only get here if there are no balls left
-        Debug.Log("No More Balls");
         StartCoroutine(RespawnBall());
     }
 
     IEnumerator RespawnBall()
     {
+        
         yield return new WaitForSeconds(0.5f);
-        SpawnInitialBall();
+        //SpawnInitialBall();
+        //Respawn Ball
+        ball.GetComponent<Ball>().Respawn();
     }
 
+    /*
     #region gizmos
 
 
@@ -109,5 +94,6 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
+    */
 
 }

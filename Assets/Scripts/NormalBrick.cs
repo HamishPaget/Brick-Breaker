@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class NormalBrick : MonoBehaviour, IBrick
+public class NormalBrick : NetworkBehaviour, IBrick
 {
     public int score;
 
@@ -11,6 +12,7 @@ public class NormalBrick : MonoBehaviour, IBrick
         ScoreManager.instance.AddScore(score);
         BrickManager.instance.bricks.Remove(this);
         Destroy(gameObject);
+        //NetworkServer.UnSpawn(gameObject);
     }
 
     public void Hit()

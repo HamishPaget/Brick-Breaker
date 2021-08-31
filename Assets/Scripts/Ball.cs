@@ -1,17 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Ball : MonoBehaviour
+public class Ball : NetworkBehaviour
 {
+
     Rigidbody rb;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
 
+    public PlayerMovement mainPlayer;
+
     public float ballSpeed = 2f;
+
+    [SyncVar]
+    public bool inLauncher;
 
     private void FixedUpdate()
     {
@@ -40,7 +47,10 @@ public class Ball : MonoBehaviour
             rb.velocity = velocity.normalized * ballSpeed;
         //}
 
-        
+        if (inLauncher & NetworkClient.isHostClient)
+        {
+            transform.position = mainPlayer.ballLaunchLocation.position;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -69,12 +79,33 @@ public class Ball : MonoBehaviour
         }
     }
 
+    public void Respawn()
+    {
+        SpawnDeathParticle();
+
+        if (NetworkClient.isHostClient){
+
+            inLauncher = true;
+            mainPlayer.ballToLaunch = gameObject;
+            rb.velocity = Vector3.zero;
+        }
+    }
+
     public GameObject deathParticle;
-    private void OnDestroy()
+    private void SpawnDeathParticle()
     {
         if (deathParticle != null)
         {
             Instantiate(deathParticle, transform.position, Quaternion.identity, null);
         }
+    }
+
+    public void LaunchBall()
+    {
+        transform.rotation = Quaternion.Euler(0, 0, Random.Range(-GameManager.instance.launchAngle / 2, GameManager.instance.launchAngle / 2));
+
+
+        rb.velocity = transform.up * ballSpeed;
+        inLauncher = false;
     }
 }

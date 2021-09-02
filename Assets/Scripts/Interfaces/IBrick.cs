@@ -8,4 +8,8 @@ public interface IBrick
     public void Hit();
 
     public void Destroy();
+
+    public void Enable();
+
+    public bool active { get; }
 }

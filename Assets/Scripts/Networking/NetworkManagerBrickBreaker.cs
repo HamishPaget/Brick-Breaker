@@ -32,6 +32,8 @@ public class NetworkManagerBrickBreaker : NetworkManager
 
             players[0].GetComponent<PlayerMovement>().ballToLaunch = ball;
             GameManager.instance.ball = ball;
+
+            ResetLevel();
         }
     }
 
@@ -45,5 +47,14 @@ public class NetworkManagerBrickBreaker : NetworkManager
 
         // call base functionality (actually destroys the player)
         base.OnServerDisconnect(conn);
+    }
+
+    public void ResetLevel()
+    {
+        if (NetworkClient.isHostClient)
+        {
+            BrickManager.instance.ResetBricks();
+            ScoreManager.instance.ResetScore();
+        }
     }
 }

@@ -7,12 +7,18 @@ public class NormalBrick : NetworkBehaviour, IBrick
 {
     public int score;
 
+    public bool active { get => gameObject.activeInHierarchy;}
+
     public void Destroy()
     {
         ScoreManager.instance.AddScore(score);
-        BrickManager.instance.bricks.Remove(this);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
         //NetworkServer.UnSpawn(gameObject);
+    }
+
+    public void Enable()
+    {
+        gameObject.SetActive(true);
     }
 
     public void Hit()

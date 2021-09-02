@@ -26,6 +26,24 @@ public class BrickManager : MonoBehaviour
 
     public int TotalBricks()
     {
-        return bricks.Count;
+        int activeBricks = 0;
+
+        for (int i = 0; i < bricks.Count; i++)
+        {
+            if (bricks[i].active)
+            {
+                activeBricks++;
+            }
+        }
+
+        return activeBricks;
+    }
+
+    public void ResetBricks()
+    {
+        for (int i = 0; i < bricks.Count; i++)
+        {
+            bricks[i].Enable();
+        }
     }
 }

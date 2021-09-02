@@ -76,7 +76,7 @@ public class GameManager : NetworkBehaviour
     IEnumerator RespawnBall()
     {
         
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         //SpawnInitialBall();
         //Respawn Ball
         ball.GetComponent<Ball>().Respawn();

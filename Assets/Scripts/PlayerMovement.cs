@@ -17,6 +17,7 @@ public class PlayerMovement : NetworkBehaviour
 
     public ControlsSO controls;
 
+    [HideInInspector]
     public GameObject ballToLaunch;
 
     public Transform ballLaunchLocation;

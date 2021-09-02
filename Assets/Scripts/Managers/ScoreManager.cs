@@ -36,6 +36,11 @@ public class ScoreManager : NetworkBehaviour
         
     }
 
+    public void ResetScore()
+    {
+        score = 0;
+    }
+
     private void Update()
     {
         if (score != prevScore)
